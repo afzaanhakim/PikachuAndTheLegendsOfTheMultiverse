@@ -46,6 +46,8 @@ contract PokemonNFTGame is ERC721 {
 MultiverseGod public multiverseGod;
 
   mapping(address => uint256) public nftHolders;
+  event PokemonNFTMinted(address sender, uint256 tokenId, uint256 pokemonIndex);
+  event AttackComplete(uint newGodHp, uint newPlayerHp);
 
   constructor(
     string[] memory pokemonNames,
@@ -128,6 +130,8 @@ console.log("Done initializing boss %s w/ HP %s, img %s", multiverseGod.name, mu
 
     // Increment the tokenId for the next person that uses it.
     _tokenIds.increment();
+
+    emit PokemonNFTMinted(msg.sender, newItemId, _pokemonIndex);
   }
 
   function tokenURI(uint256 _tokenId)
@@ -201,5 +205,37 @@ console.log("Done initializing boss %s w/ HP %s, img %s", multiverseGod.name, mu
     // Console for ease.
   console.log("Player attacked boss. New boss hp: %s", multiverseGod.hp);
   console.log("Boss attacked player. New player hp: %s\n", player.hp);
+
+  emit AttackComplete(multiverseGod.hp, player.hp);
   }
+
+  function checkIfUserHasNFT() public view returns (PokemonAttributes memory) {
+  // Get the tokenId of the user's character NFT
+
+  uint256 playerNftTokenId = nftHolders[msg.sender];
+
+
+  // If the user has a tokenId in the map, return their character.
+
+
+  if (playerNftTokenId > 0) {
+    return nftHolderAttributes[playerNftTokenId];
+  }
+  else {
+    PokemonAttributes memory emptyStruct;
+    return emptyStruct;
+  }
+}
+
+//getting all default pokemon!
+
+function getAllDefaultPokemon() public view returns (PokemonAttributes[] memory) {
+  return defaultPokemons;
+}
+
+
+//function to get data of God pokemon
+function getGod() public view returns (MultiverseGod memory) {
+  return multiverseGod;
+}
 }
