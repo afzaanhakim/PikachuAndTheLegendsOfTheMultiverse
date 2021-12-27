@@ -1,7 +1,7 @@
 const main = async () => {
   //compiling our pokemonnftgame contract and generating files with Hardhat / HRE which is used when hardhat script is run
   const gameContractFactory = await hre.ethers.getContractFactory(
-    "PokemonNFTGame"
+    'PokemonNFTGame'
   );
   const gameContract = await gameContractFactory.deploy(
     //names
@@ -30,36 +30,36 @@ const main = async () => {
       "Calyrex",
     ],
     [
-      "https://i.imgur.com/Icd15jl.png",
-      "https://imgur.com/dWxTpVV.png",
-      "https://imgur.com/6FFzCoL.png",
-      "https://imgur.com/GwWvre2.png",
-      "https://imgur.com/vGzpDxV.png",
-      "https://imgur.com/T9T7kPk.png",
-      "https://imgur.com/YJrP5SD.png",
-      "https://imgur.com/3Hf5gcZ.png",
-      "https://imgur.com/tOEe1JJ.png",
-      "https://imgur.com/YjFSlsd.png",
-      "https://imgur.com/lQ89J94.png",
-      "https://imgur.com/uu7Rf9Y.png",
-      "https://imgur.com/5YirvMb.png",
-      "https://imgur.com/u6U1FBh.png",
-      "https://imgur.com/GaLVcXO.png",
-      "https://imgur.com/SLLp55E.png",
-      "https://imgur.com/21eglku.png",
-      "https://imgur.com/Z6X3Rgj.png",
-      "https://imgur.com/tJBLJS0.png",
-      "https://imgur.com/4bKuCtq.png",
-      "https://imgur.com/RF52Qzc.png",
-      "https://imgur.com/N2OrjEF.png",
+      "https://imgur.com/Mh3c0En.png", //pikachu
+      "https://imgur.com/KdHApgB.png", //dialga
+      "https://imgur.com/RLyAhFB.png", //hooh
+      "https://imgur.com/ZFW0zUW.png", //celebi
+      "https://imgur.com/JXe3OIS.png", //mew
+      "https://imgur.com/kat7amg.png", //mewtwo
+      "https://imgur.com/4fIiLjQ.png", //rayquaza
+      "https://imgur.com/WtJ7ojs.png", //zapdos
+      "https://imgur.com/2aBJEPM.png", //groudon
+      "https://imgur.com/qVPJHgI.png", // giratina
+      "https://imgur.com/tR0pseZ.png", //deoxyx
+      "https://imgur.com/ZZtjWgL.png", //kyurem
+      "https://imgur.com/LOnBZ79.png", //virizion
+      "https://imgur.com/EVbSrLG.png", //tornadus
+      "https://imgur.com/0iUZCmB.png", //reshiram
+      "https://imgur.com/Kd3Q1Tu.png", //xerneas
+      "https://imgur.com/GxXuW2P.png", //silvally
+      "https://imgur.com/yunU1jQ.png", //cosmoem
+      "https://imgur.com/M22x3Hm.png", //zacian
+      "https://imgur.com/9A71er8.png", //eternatus
+      "https://imgur.com/1BiEkkH.png", //galarian moltres
+      "https://imgur.com/8oRoBQd.png", //calyrex
     ],
     [
       72, 183, 193, 183, 183, 193, 191, 166, 183, 268, 98, 225, 168, 147, 183,
       227, 174, 86, 169, 251, 166, 183,
     ],
     [
-      112, 301, 263, 210, 210, 330, 312, 253, 296, 206, 345, 270, 192, 265, 301,
-      275, 198, 54, 279, 305, 251, 162,
+      112, 301, 263, 210, 210, 330, 312, 253, 296, 206, 345, 270, 192, 265,
+      301,275, 198, 54, 279, 305, 251, 162,
     ],
     [
       "Electric",
@@ -84,22 +84,29 @@ const main = async () => {
       "Poison/Dragon",
       "Fire/Flying",
       "Psychic/Grass",
-    ]
+    ],"Arceus",
+    "https://imgur.com/pXlyFN1.png",
+    800,
+    225,
+    "Creator"
   );
   await gameContract.deployed(); //hardhat creating our local network and deploying it
   console.log("Contract deployed to:", gameContract.address);
-  //getting address of our deployed contract on the chain
+   //getting address of our deployed contract on the chain
 
-  let txn;
-  txn = await gameContract.mintPokemonNFT(18);
-  await txn.wait();
-  console.log("Minted NFT #19");
+   let txn;
+   txn = await gameContract.mintPokemonNFT(13)
+   await txn.wait();
+console.log("Minted #14")
 
-  let returnedTokenURI = await gameContract.tokenURI(1);
-
-  console.log("Token URI:", returnedTokenURI);
-
-  console.log("Done deploying and minting!");
+txn = await gameContract.attackGod();
+await txn.wait();
+console.log("Attacked God Once")
+txn = await gameContract.attackGod();
+await txn.wait();
+console.log("Attacked God Twice")
+   //Getting NFT's token URI
+   
 };
 
 const runMain = async () => {
