@@ -92,20 +92,6 @@ const main = async () => {
   );
   await gameContract.deployed(); //hardhat creating our local network and deploying it
   console.log("Contract deployed to:", gameContract.address);
-   //getting address of our deployed contract on the chain
-
-   let txn;
-   txn = await gameContract.mintPokemonNFT(13)
-   await txn.wait();
-console.log("Minted #14")
-
-txn = await gameContract.attackGod();
-await txn.wait();
-console.log("Attacked God Once")
-txn = await gameContract.attackGod();
-await txn.wait();
-console.log("Attacked God Twice")
-   //Getting NFT's token URI
    
 };
 
