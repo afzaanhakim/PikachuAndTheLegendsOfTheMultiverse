@@ -33,7 +33,7 @@ const main = async () => {
     "https://imgur.com/Mh3c0En.png", //pikachu
     "https://imgur.com/KdHApgB.png", //dialga
     "https://imgur.com/RLyAhFB.png", //hooh
-    "https://imgur.com/ZFW0zUW.png", //celebi
+    "https://imgur.com/fwokrEs.png", //celebi
     "https://imgur.com/JXe3OIS.png", //mew
     "https://imgur.com/kat7amg.png", //mewtwo
     "https://imgur.com/4fIiLjQ.png", //rayquaza
@@ -50,7 +50,7 @@ const main = async () => {
     "https://imgur.com/yunU1jQ.png", //cosmoem
     "https://imgur.com/M22x3Hm.png", //zacian
     "https://imgur.com/9A71er8.png", //eternatus
-    "https://imgur.com/1BiEkkH.png", //galarian moltres
+    "https://imgur.com/bo4vUmN.png", //galarian moltres
     "https://imgur.com/8oRoBQd.png", //calyrex
   ],
   [
