@@ -35,19 +35,19 @@ contract PokemonNFTGame is ERC721 {
   //creating two mappings (state variables) one for the tokenId => nbftAttributes and the other for the address of the ownerr who owns the nft and reff it later
   mapping(uint256 => PokemonAttributes) public nftHolderAttributes;
   struct MultiverseGod {
-  string name;
-  string imageURI;
-  uint hp;
-  uint maxHp;
-  uint attackDamage;
-  string godType;
-}
+    string name;
+    string imageURI;
+    uint256 hp;
+    uint256 maxHp;
+    uint256 attackDamage;
+    string godType;
+  }
 
-MultiverseGod public multiverseGod;
+  MultiverseGod public multiverseGod;
 
   mapping(address => uint256) public nftHolders;
   event PokemonNFTMinted(address sender, uint256 tokenId, uint256 pokemonIndex);
-  event AttackComplete(uint newGodHp, uint newPlayerHp);
+  event AttackComplete(uint256 newGodHp, uint256 newPlayerHp);
 
   constructor(
     string[] memory pokemonNames,
@@ -57,24 +57,29 @@ MultiverseGod public multiverseGod;
     string[] memory pokemonTypes,
     string memory godName,
     string memory godImageURI,
-    uint godHp,
-    uint godAttackDamage,
+    uint256 godHp,
+    uint256 godAttackDamage,
     string memory godType
   )
     //special indentifiers symbol for NFT
 
-    ERC721("The War Of The Legendaries", "Multiverse Pokemon")
+    ERC721("Pikachu And The Monsters Of The Multiverse", "Multiverse Legendary")
   {
-// Initialize the boss. Save it to our global "bigBoss" state variable.
-  multiverseGod = MultiverseGod({
-    name: godName,
-    imageURI: godImageURI,
-    hp: godHp,
-    maxHp: godHp,
-    attackDamage: godAttackDamage,
-    godType: godType
-  });
-console.log("Done initializing boss %s w/ HP %s, img %s", multiverseGod.name, multiverseGod.hp, multiverseGod.imageURI);
+    // Initialize the boss. Save it to our global "bigBoss" state variable.
+    multiverseGod = MultiverseGod({
+      name: godName,
+      imageURI: godImageURI,
+      hp: godHp,
+      maxHp: godHp,
+      attackDamage: godAttackDamage,
+      godType: godType
+    });
+    console.log(
+      "Done initializing boss %s w/ HP %s, img %s",
+      multiverseGod.name,
+      multiverseGod.hp,
+      multiverseGod.imageURI
+    );
 
     for (uint256 i = 0; i < pokemonNames.length; i += 1) {
       defaultPokemons.push(
@@ -117,7 +122,6 @@ console.log("Done initializing boss %s w/ HP %s, img %s", multiverseGod.name, mu
       maxHp: defaultPokemons[_pokemonIndex].maxHp,
       attackDamage: defaultPokemons[_pokemonIndex].attackDamage
     });
-    
 
     console.log(
       "Minted NFT w/ tokenId %s and characterIndex %s",
@@ -158,6 +162,8 @@ console.log("Done initializing boss %s w/ HP %s, img %s", multiverseGod.name, mu
             Strings.toString(_tokenId),
             '", "description": "This is an NFT that lets people play in the game Pikachu And The Legends Of The Multiverse!", "image": "',
             pokeAttributes.imageUri,
+            '", "type":"',
+            pokeAttributes.pokemonType,
             '", "attributes": [{ "trait_type": "Health Points", "value": ',
             strHp,
             ', "max_value":',
@@ -179,63 +185,75 @@ console.log("Done initializing boss %s w/ HP %s, img %s", multiverseGod.name, mu
     uint256 nftTokenIdOfPlayer = nftHolders[msg.sender];
     // Get the state of the player's NFT.
     PokemonAttributes storage player = nftHolderAttributes[nftTokenIdOfPlayer];
-    console.log("\nPlayer w/ character %s about to attack. Has %s HP and %s AD", player.name, player.hp, player.attackDamage);
-    console.log("Boss %s has %s HP and %s AD", multiverseGod.name, multiverseGod.hp, multiverseGod.attackDamage);
+    console.log(
+      "\nPlayer w/ character %s about to attack. Has %s HP and %s AD",
+      player.name,
+      player.hp,
+      player.attackDamage
+    );
+    console.log(
+      "Boss %s has %s HP and %s AD",
+      multiverseGod.name,
+      multiverseGod.hp,
+      multiverseGod.attackDamage
+    );
 
-    require ( player.hp > 0, "Error: Pokemon Must Have HP to Attack The Creator."); //player should have HP to attack god
+    require(
+      player.hp > 0,
+      "Error: Pokemon Must Have HP to Attack The Creator."
+    ); //player should have HP to attack god
 
-     require (
-    multiverseGod.hp > 0,
-    "Error: Creator must have HP to attack Player." //God should HP to attack
-  );
+    require(
+      multiverseGod.hp > 0,
+      "Error: Creator must have HP to attack Player." //God should HP to attack
+    );
 
-  if (multiverseGod.hp < (player.attackDamage / 10)) {
-    multiverseGod.hp = 0;
-  } else {
-    multiverseGod.hp = multiverseGod.hp - (player.attackDamage / 10);
-  }
+    if (multiverseGod.hp < (player.attackDamage / 10)) {
+      multiverseGod.hp = 0;
+    } else {
+      multiverseGod.hp = multiverseGod.hp - (player.attackDamage / 10);
+    }
 
-
-   if (player.hp < (multiverseGod.attackDamage / 10)) {
-    player.hp = 0;
-  } else {
-    player.hp = player.hp - (multiverseGod.attackDamage / 10);
-  }
+    if (player.hp < (multiverseGod.attackDamage / 10)) {
+      player.hp = 0;
+    } else {
+      player.hp = player.hp - (multiverseGod.attackDamage / 10);
+    }
 
     // Console for ease.
-  console.log("Player attacked boss. New boss hp: %s", multiverseGod.hp);
-  console.log("Boss attacked player. New player hp: %s\n", player.hp);
+    console.log("Player attacked boss. New boss hp: %s", multiverseGod.hp);
+    console.log("Boss attacked player. New player hp: %s\n", player.hp);
 
-  emit AttackComplete(multiverseGod.hp, player.hp);
+    emit AttackComplete(multiverseGod.hp, player.hp);
   }
 
   function checkIfUserHasNFT() public view returns (PokemonAttributes memory) {
-  // Get the tokenId of the user's character NFT
+    // Get the tokenId of the user's character NFT
 
-  uint256 playerNftTokenId = nftHolders[msg.sender];
+    uint256 playerNftTokenId = nftHolders[msg.sender];
 
+    // If the user has a tokenId in the map, return their character.
 
-  // If the user has a tokenId in the map, return their character.
-
-
-  if (playerNftTokenId > 0) {
-    return nftHolderAttributes[playerNftTokenId];
+    if (playerNftTokenId > 0) {
+      return nftHolderAttributes[playerNftTokenId];
+    } else {
+      PokemonAttributes memory emptyStruct;
+      return emptyStruct;
+    }
   }
-  else {
-    PokemonAttributes memory emptyStruct;
-    return emptyStruct;
+
+  //getting all default pokemon!
+
+  function getAllDefaultPokemon()
+    public
+    view
+    returns (PokemonAttributes[] memory)
+  {
+    return defaultPokemons;
   }
-}
 
-//getting all default pokemon!
-
-function getAllDefaultPokemon() public view returns (PokemonAttributes[] memory) {
-  return defaultPokemons;
-}
-
-
-//function to get data of God pokemon
-function getGod() public view returns (MultiverseGod memory) {
-  return multiverseGod;
-}
+  //function to get data of God pokemon
+  function getGod() public view returns (MultiverseGod memory) {
+    return multiverseGod;
+  }
 }
